@@ -20,7 +20,7 @@ own project. It is probably not suitable for production use.
 
 Latest stable release is **0.1.0**
 
-Releases are on [Clojars](https://clojars.org/))
+Releases are on [Clojars](https://clojars.org/)
 
 [Leiningen] dependency information:
 
