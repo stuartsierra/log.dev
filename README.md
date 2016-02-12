@@ -52,8 +52,9 @@ Add this library as a dependency to your project.
 ### Exclusions
 
 Add **exclusions** for all other logging implementations that might be
-in the transitive dependencies of your project. See `:exclusions` in
-log.dev's `project.clj` file for an example.
+in the transitive dependencies of your project.
+
+See `:exclusions` in log.dev's `project.clj` file for an example.
 
 
 ### Local config file
@@ -136,6 +137,9 @@ up. (See [LOGBACK-747] and [LOGBACK-918]).
 [LOGBACK-918]: http://jira.qos.ch/browse/LOGBACK-918
 
 
+
+## Additional notes
+
 ### All levels enabled
 
 All logging levels are enabled in this configuration.
@@ -150,7 +154,7 @@ Do not use log.dev if you are optimizing or benchmarking code which
 does any logging.
 
 
-## java.util.logging
+### java.util.logging
 
 If any code or library in your project uses the [java.util.logging]
 APIs, you will need to initialize the SLF4J bridge by doing the
@@ -180,7 +184,7 @@ See the [SLF4JBridgeHandler] documentation for details.
 [java.util.logging]: http://docs.oracle.com/javase/7/docs/api/java/util/logging/package-summary.html
 
 
-## Customizing
+### Customizing
 
 You will probably want to customize the logging configuration for
 production use. To do that, **remove log.dev** from your project's
