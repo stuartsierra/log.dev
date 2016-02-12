@@ -18,24 +18,25 @@ own project. It is probably not suitable for production use.
 
 ## Releases and dependency information
 
-No releases yet. Run `lein install` in this directory and then use
-version 0.1.0-SNAPSHOT
+Latest stable release is **0.1.0**
+
+Releases are on [Clojars](https://clojars.org/))
 
 [Leiningen] dependency information:
 
-    [com.stuartsierra/log.dev "0.1.0-SNAPSHOT"]
+    [com.stuartsierra/log.dev "0.1.0"]
 
 [Maven] dependency information:
 
     <dependency>
       <groupId>com.stuartsierra</groupId>
       <artifactId>log.dev</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <version>0.1.0</version>
     </dependency>
 
 [Gradle] dependency information:
 
-    compile "com.stuartsierra:log.dev:0.1.0-SNAPSHOT"
+    compile "com.stuartsierra:log.dev:0.1.0"
 
 [Clojars]: https://clojars.org/
 [Leiningen]: http://leiningen.org/
@@ -195,12 +196,6 @@ dependencies to forward all log APIs via SLF4J to Logback.
 
 Refer to `resources/logback.xml` for an example of how to configure
 Logback.
-
-
-
-## Change Log
-
-* Version 0.1.0-SNAPSHOT (in development)
 
 
 
