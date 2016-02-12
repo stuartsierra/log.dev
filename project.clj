@@ -23,7 +23,8 @@
 
    ;; Redirect java.util.logging to Logback via the SLF4J API.
    ;; Requires installing the bridge handler, see README:
-   [org.slf4j/jul-to-slf4j "1.7.16"]]
+   [org.slf4j/jul-to-slf4j "1.7.16"]
+   ]
 
   :exclusions
   [;; Exclude transitive dependencies on all other logging
@@ -34,8 +35,8 @@
    org.slf4j/simple
    org.slf4j/slf4j-jcl
    org.slf4j/slf4j-nop
-   org.slf4j/slg4j-log4j12
-   org.slf4j/slg4j-log4j13
+   org.slf4j/slf4j-log4j12
+   org.slf4j/slf4j-log4j13
    ]
   
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.6.0"]
