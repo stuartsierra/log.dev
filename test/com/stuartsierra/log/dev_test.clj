@@ -12,16 +12,19 @@
 (SLF4JBridgeHandler/removeHandlersForRootLogger)
 (SLF4JBridgeHandler/install)
 
-(def ^String logger-name
+(def ^String default-logger-name
   "com.stuartsierra.log.dev-test")
+
+(def ^String app-logger-name
+  "com.example.testing_log_dev.one")
 
 (defmulti emit-log
   (fn [impl & _] impl))
 
-(defmethod emit-log :tools.logging [_ level message]
+(defmethod emit-log :tools.logging [_ ^String logger-name level message]
   (clojure.tools.logging/logp level message))
 
-(defmethod emit-log :slf4j [_ level message]
+(defmethod emit-log :slf4j [_ ^String logger-name level message]
   (let [logger (org.slf4j.LoggerFactory/getLogger logger-name)]
     (case level
       :trace (.trace logger message)
@@ -32,7 +35,7 @@
       ;; SLF4J has no FATAL level
       :fatal (.error logger message))))
 
-(defmethod emit-log :log4j1 [_ level message]
+(defmethod emit-log :log4j1 [_ ^String logger-name level message]
   (let [logger (org.apache.log4j.Logger/getLogger logger-name)]
     (case level
       :trace (.trace logger message)
@@ -42,7 +45,7 @@
       :error (.error logger message)
       :fatal (.fatal logger message))))
 
-(defmethod emit-log :log4j2 [_ level message]
+(defmethod emit-log :log4j2 [_ ^String logger-name level message]
   (let [logger (org.apache.logging.log4j.LogManager/getLogger logger-name)]
     (case level
       :trace (.trace logger message)
@@ -52,7 +55,7 @@
       :error (.error logger message)
       :fatal (.fatal logger message))))
 
-(defmethod emit-log :commons [_ level message]
+(defmethod emit-log :commons [_ ^String logger-name level message]
   (let [logger (org.apache.commons.logging.LogFactory/getLog logger-name)]
     (case level
       :trace (.trace logger message)
@@ -62,7 +65,7 @@
       :error (.error logger message)
       :fatal (.fatal logger message))))
 
-(defmethod emit-log :jul [_ level message]
+(defmethod emit-log :jul [_ ^String logger-name level ^String message]
   (let [logger (java.util.logging.Logger/getLogger logger-name)]
     (case level
       :trace (.finest logger message)
@@ -80,24 +83,43 @@
 (def gen-impl
   (gen/elements [:tools.logging :slf4j :log4j1 :log4j2 :commons :jul]))
 
-(defn ^java.io.File default-log-file []
-  (io/file "log" "dev.log"))
+(def gen-factory-impl
+  "clojure.tools.logging doesn't expose the factory interface,
+  defaults to namespace name."
+  (gen/elements [:slf4j :log4j1 :log4j2 :commons :jul]))
 
-(defn clear-log-file []
-  (.mkdirs (.getParentFile (default-log-file)))
+(defn ^java.io.File default-log-file []
+  (io/file "log" "all.log"))
+
+(defn ^java.io.File app-log-file []
+  (io/file "log" "app.log"))
+
+(defn clear-log-file [^java.io.File file]
+  (.mkdirs (.getParentFile file))
   (spit (default-log-file) ""))
 
-(defn log-file-contains? [message]
-  (.contains ^String (slurp (default-log-file)) message))
+(defn log-file-contains? [file message]
+  (.contains ^String (slurp file) message))
 
 (defspec log-one-message-any-level
   1000  ; number of iterations for test.check
-  (prop/for-all [impl gen-impl
-                 level gen-level
-                 message (gen/not-empty gen/string)]
-    (clear-log-file)
-    (emit-log impl level message)
-    (log-file-contains? message)))
+  (let [file (default-log-file)]
+    (prop/for-all [impl gen-impl
+                   level gen-level
+                   message (gen/not-empty (gen/resize 50 gen/string-alpha-numeric))]
+                  (clear-log-file file)
+                  (emit-log impl default-logger-name level message)
+                  (log-file-contains? file message))))
+
+(defspec log-one-message-from-app
+  1000
+  (let [file (app-log-file)]
+    (prop/for-all [impl gen-factory-impl
+                   level gen-level
+                   message (gen/not-empty (gen/resize 50 gen/string-alpha-numeric))]
+                  (clear-log-file file)
+                  (emit-log impl app-logger-name level message)
+                  (log-file-contains? file message))))
 
 (defn log-fast
   "Creates a future which logs a lot of messages, as quickly as

@@ -16,7 +16,7 @@ own project. It is probably not suitable for production use.
 
 
 
-## Releases and Dependency Information
+## Releases and dependency information
 
 No releases yet. Run `lein install` in this directory and then use
 version 0.1.0-SNAPSHOT
@@ -46,35 +46,77 @@ version 0.1.0-SNAPSHOT
 
 ## Usage
 
-Add this library as a dependency to your project. Use whatever logging
-API you prefer, such as [clojure.tools.logging] or [SLF4J].
+Add this library as a dependency to your project.
+
+Add **exclusions** for all other logging implementations that might be
+in the transitive dependencies of your project. See `:exclusions` in
+log.dev's `project.clj` file for an example.
+
+
+### Configuration
+
+Add a file named `log_dev_app.properties` to your project's resources,
+at the root of the classpath, containing the following property:
+
+    app_root_logger=com.example.your.application
+
+Replace `com.example.your.application` with the top-level namespace of
+your project.
+
+
+### Logging from your application
+
+Use whatever logging API you prefer, such as [clojure.tools.logging]
+or [SLF4J].
 
 [clojure.tools.logging]: https://github.com/clojure/tools.logging
 [SLF4J]: http://slf4j.org/
 
+
+### Console logging
+
+Only log messages at levels WARN and ERROR will be printed to the
+console (STDOUT). These messages may or may not be visible in an
+interactive shell or REPL, depending on your development tooling and
+configuration.
+
+
+### Output file: log/app.log
+
+If you set up the properties file as described above in [Configuration](#configuration),
+all log messages from **your application code** will be written to the
+file `log/app.log` relative to the working directory in which your
+program was started.
+
+
+### Output file: log/all.log
+
+**All** log messages from **all** namespaces and packages (your
+application code plus all libraries) will be written out to a file
+`log/all.log` relative to the working directory in which your program
+was started.
+
 Any Java or Clojure code using any of the following logging APIs will
-have their log messages redirected to Logback:
+have their log messages written via Logback:
 
 * [SLF4J](http://slf4j.org/)
 * [Log4j 1](http://logging.apache.org/log4j/1.2/)
 * [Log4j 2](http://logging.apache.org/log4j/2.x/)
 * [Commons Logging](http://commons.apache.org/proper/commons-logging/)
+* [OSGI LogService](https://osgi.org/javadoc/r4v42/org/osgi/service/log/LogService.html)
 * See note below about java.util.logging
 
-All log messages will be written out to a file `log/dev.log` relative
-to the working directory in which your program was started.
 
+### Automatic log file rotation
 
-### Automatic Log File Rotation
+Each log file will be rotated daily **and** every time it reaches
+64 MB in size.
 
-The log file will be rotated daily **and** every time it reaches 64 MB
-in size. 
-
-Rotated log files will be named like `log/dev.YYYY-MM-DD.N.log` where
+Rotated log files will be named like `log/all.YYYY-MM-DD.N.log` where
 `YYYY-MM-DD` is the date and `N` is a sequence number.
 
-The current log file is always `log/dev.log`, but it may be replaced
-by a new file due to rotation. So if you are monitoring that file with
+The current log file is always `log/all.log` but it may be replaced by
+a new file due to rotation. So if you are monitoring that file with
 another program, for example `tail -f`, you will need to restart the
 monitor every time the file is rotated.
 
@@ -87,14 +129,7 @@ up. (See [LOGBACK-747] and [LOGBACK-918]).
 [LOGBACK-918]: http://jira.qos.ch/browse/LOGBACK-918
 
 
-### No Console Logging
-
-No log messages will be printed to the console (STDOUT/STDERR), not
-even WARN or ERROR messages. This is because console logging can
-interfere with interactive development using a REPL.
-
-
-### All Levels Enabled
+### All levels enabled
 
 All logging levels are enabled in this configuration.
 
@@ -136,7 +171,7 @@ production use. To do that, **remove log.dev** from your project's
 dependencies and replace it with your custom configuration.
 
 Refer to `project.clj` for an example of how to configure your
-dependencies to forward all log messages to Logback.
+dependencies to forward all log APIs via SLF4J to Logback.
 
 Refer to `resources/logback.xml` for an example of how to configure
 Logback.
