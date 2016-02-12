@@ -32,7 +32,6 @@
    log4j
    org.apache.logging.log4j/log4j
    org.slf4j/simple
-   org.slf4j/slf4j-api
    org.slf4j/slf4j-jcl
    org.slf4j/slf4j-nop
    org.slf4j/slg4j-log4j12
