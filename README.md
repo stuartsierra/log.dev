@@ -44,16 +44,19 @@ version 0.1.0-SNAPSHOT
 
 
 
-## Usage
+## Configuration
 
 Add this library as a dependency to your project.
+
+
+### Exclusions
 
 Add **exclusions** for all other logging implementations that might be
 in the transitive dependencies of your project. See `:exclusions` in
 log.dev's `project.clj` file for an example.
 
 
-### Configuration
+### Local config file
 
 Add a file named `log_dev_app.properties` to your project's resources,
 at the root of the classpath, containing the following property:
@@ -64,14 +67,18 @@ Replace `com.example.your.application` with the top-level namespace of
 your project.
 
 
-### Logging from your application
 
-Use whatever logging API you prefer, such as [clojure.tools.logging]
-or [SLF4J].
+## Usage
+
+In your application code, use whatever logging API you prefer, such as
+[clojure.tools.logging] or [SLF4J].
 
 [clojure.tools.logging]: https://github.com/clojure/tools.logging
 [SLF4J]: http://slf4j.org/
 
+
+
+## Where are my logs?
 
 ### Console logging
 
@@ -134,7 +141,16 @@ up. (See [LOGBACK-747] and [LOGBACK-918]).
 All logging levels are enabled in this configuration.
 
 
-### Special note for java.util.logging
+### Performance
+
+This log configuration is **verbose** and **synchronous**. This is
+good for visibility during development but bad for performance.
+
+Do not use log.dev if you are optimizing or benchmarking code which
+does any logging.
+
+
+## java.util.logging
 
 If any code or library in your project uses the [java.util.logging]
 APIs, you will need to initialize the SLF4J bridge by doing the
@@ -164,7 +180,7 @@ See the [SLF4JBridgeHandler] documentation for details.
 [java.util.logging]: http://docs.oracle.com/javase/7/docs/api/java/util/logging/package-summary.html
 
 
-### Customizing
+## Customizing
 
 You will probably want to customize the logging configuration for
 production use. To do that, **remove log.dev** from your project's
