@@ -31,19 +31,18 @@
     <!-- Default location of log file is log/all.log -->
     <file>log/all.log</file>
 
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
       <!-- Roll over log files daily -->
       <fileNamePattern>log/all.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 
       <!-- And start a new file every 64 MB -->
-      <timeBasedFileNamingAndTriggeringPolicy
-          class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-        <maxFileSize>64MB</maxFileSize>
-      </timeBasedFileNamingAndTriggeringPolicy>
+      <maxFileSize>64 MB</maxFileSize>
 
-      <!-- Delete log files older than 15 days. Does not limit the
-           total number of files. -->
+      <!-- Keep at most 15 days of history -->
       <maxHistory>15</maxHistory>
+
+      <!-- Up to a maximum of 512 MB -->
+      <totalSizeCap>512MB</totalSizeCap>
     </rollingPolicy>
   </appender>
 
@@ -59,19 +58,18 @@
     <!-- Default location of log file is log/app.log -->
     <file>log/app.log</file>
 
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
       <!-- Roll over log files daily -->
       <fileNamePattern>log/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 
       <!-- And start a new file every 64 MB -->
-      <timeBasedFileNamingAndTriggeringPolicy
-          class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-        <maxFileSize>64MB</maxFileSize>
-      </timeBasedFileNamingAndTriggeringPolicy>
+      <maxFileSize>64 MB</maxFileSize>
 
-      <!-- Delete log files older than 15 days. Does not limit the
-           total number of files. -->
+      <!-- Keep at most 15 days of history -->
       <maxHistory>15</maxHistory>
+
+      <!-- Up to a maximum of 512 MB -->
+      <totalSizeCap>512MB</totalSizeCap>
     </rollingPolicy>
   </appender>
 
