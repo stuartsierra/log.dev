@@ -124,18 +124,25 @@ Each log file will be rotated daily **and** every time it reaches
 Rotated log files will be named like `log/all.YYYY-MM-DD.N.log` where
 `YYYY-MM-DD` is the date and `N` is a sequence number.
 
-The current log file is always `log/all.log` but it may be replaced by
-a new file due to rotation. So if you are monitoring that file with
-another program, for example `tail -f`, you will need to restart the
-monitor every time the file is rotated.
+The current log files are always `log/app.log` and `log/all.log` but
+they may be replaced by new files due to rotation. So if you are
+monitoring those files with another program, for example `tail -f`, you
+may need to restart the monitor every time a file is rotated.
 
-**Log files older than 30 days will be deleted.**
 
-There is no limit on the total amount of space that log files can take
-up. (See [LOGBACK-747] and [LOGBACK-918]).
+### Automatic expiration
 
-[LOGBACK-747]: http://jira.qos.ch/browse/LOGBACK-747
-[LOGBACK-918]: http://jira.qos.ch/browse/LOGBACK-918
+The amount of disk space used by log files is limited to:
+
+* 512 MB total for `app*.log` files
+* 512 MB total for `all*.log` files
+
+This adds up to an overall maximum of 1 GB for all log files.
+
+When the total size of the current and rotated log files exceeds these
+limits, the oldest files will be deleted.
+
+Any log files more than 15 days old will be deleted automatically.
 
 
 
@@ -181,7 +188,7 @@ In Clojure:
 
 See the [SLF4JBridgeHandler] documentation for details.
 
-[SLF4JBridgeHandler]:http://www.slf4j.org/apidocs/org/slf4j/bridge/SLF4JBridgeHandler.html
+[SLF4JBridgeHandler]: http://www.slf4j.org/apidocs/org/slf4j/bridge/SLF4JBridgeHandler.html
 [java.util.logging]: http://docs.oracle.com/javase/7/docs/api/java/util/logging/package-summary.html
 
 
