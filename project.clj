@@ -3,8 +3,8 @@
   :url "https://github.com/stuartsierra/log.dev"
   :dependencies
   [;; Use Logback as the main logging implementation:
-   [ch.qos.logback/logback-classic "1.1.8"]
-   [ch.qos.logback/logback-core "1.1.8"]
+   [ch.qos.logback/logback-classic "1.1.7"]
+   [ch.qos.logback/logback-core "1.1.7"]
 
    ;; Logback implements the SLF4J API:
    [org.slf4j/slf4j-api "1.7.22"]
