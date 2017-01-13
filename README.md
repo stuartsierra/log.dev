@@ -45,6 +45,44 @@ Releases are on [Clojars](https://clojars.org/)
 
 
 
+## Note on Logback totalSizeCap
+
+log.dev currently depends on Logback 1.1.7, which includes support for
+the `totalSizeCap` property to limit the total size of log files.
+See [Automatic expiration](#automatic-expiration), below.
+
+However, as described in [LOGBACK-1166], the total size limit is not
+applied to the two most recent "periods" of logs. As a result, the
+total space occupied by logs can still grow without bound within a
+single day.
+
+Logback 1.1.8 drops the "untouchable periods" behavior, but also
+introduces [LOGBACK-1236] which causes spurious warning messages to be
+printed to the console on startup. There is a fix for this issue
+scheduled to be included in Logback 1.1.9.
+
+### What this means for you
+
+If you want a real limit on log file size, configure your project to
+depend on:
+
+    [ch.qos.logback/logback-classic "1.1.8"]
+    [ch.qos.logback/logback-core "1.1.8"]
+
+But if you do this, you will get spurious INFO and WARN messages
+printed to the console when your app starts up, such as
+"SizeAndTimeBasedFNATP is deprecated. Use
+SizeAndTimeBasedRollingPolicy instead".
+
+**Or** you can wait until Logback 1.1.9 is released with fixes both
+issues. See [Logback News] for release announcements.
+
+[LOGBACK-1166]: http://jira.qos.ch/browse/LOGBACK-1166
+[LOGBACK-1236]: http://jira.qos.ch/browse/LOGBACK-1236
+[Logback News]: http://logback.qos.ch/news.html
+
+
+
 ## Configuration
 
 Add this library as a dependency to your project.
