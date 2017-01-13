@@ -18,25 +18,25 @@ own project. It is probably not suitable for production use.
 
 ## Releases and dependency information
 
-Latest stable release is **0.1.0**
+Latest stable release is **0.2.0**
 
 Releases are on [Clojars](https://clojars.org/)
 
 [Leiningen] dependency information:
 
-    [com.stuartsierra/log.dev "0.1.0"]
+    [com.stuartsierra/log.dev "0.2.0"]
 
 [Maven] dependency information:
 
     <dependency>
       <groupId>com.stuartsierra</groupId>
       <artifactId>log.dev</artifactId>
-      <version>0.1.0</version>
+      <version>0.2.0</version>
     </dependency>
 
 [Gradle] dependency information:
 
-    compile "com.stuartsierra:log.dev:0.1.0"
+    compile "com.stuartsierra:log.dev:0.2.0"
 
 [Clojars]: https://clojars.org/
 [Leiningen]: http://leiningen.org/
