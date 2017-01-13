@@ -1,4 +1,4 @@
-(defproject com.stuartsierra/log.dev "0.2.0-SNAPSHOT"
+(defproject com.stuartsierra/log.dev "0.2.0"
   :description "Quick-start logging for local development using Logback and SLF4J"
   :url "https://github.com/stuartsierra/log.dev"
   :dependencies
