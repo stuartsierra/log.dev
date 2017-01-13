@@ -55,7 +55,8 @@ Add this library as a dependency to your project.
 Add **exclusions** for all other logging implementations that might be
 in the transitive dependencies of your project.
 
-See `:exclusions` in log.dev's `project.clj` file for an example.
+See `:exclusions` in log.dev's [project.clj](project.clj) file for an
+example.
 
 
 ### Local config file
@@ -198,11 +199,11 @@ You will probably want to customize the logging configuration for
 production use. To do that, **remove log.dev** from your project's
 dependencies and replace it with your custom configuration.
 
-Refer to `project.clj` for an example of how to configure your
-dependencies to forward all log APIs via SLF4J to Logback.
+Refer to [project.clj](project.clj) for an example of how to configure
+your dependencies to forward all log APIs via SLF4J to Logback.
 
-Refer to `resources/logback.xml` for an example of how to configure
-Logback.
+Refer to [resources/logback.xml](resources/logback.xml) for an example
+of how to configure Logback.
 
 
 
