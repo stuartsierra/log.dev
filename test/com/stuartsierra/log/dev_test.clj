@@ -126,11 +126,10 @@
   possible. Returns a function to stop logging. Use for testing file
   rotation."
   []
-  (let [running? (atom true)]
+  (let [running? (atom true)
+        logger (org.slf4j.LoggerFactory/getLogger "dev")]
     (future
       (while @running?
-        (let [impls (gen/sample gen-impl 100)
-              levels (gen/sample gen-level 100)
-              messages (gen/sample (gen/resize 100 gen/string-alpha-numeric) 100)]
-          (dorun (map emit-log impls levels messages)))))
+        (doseq [message (gen/sample (gen/resize 100 gen/string-alpha-numeric) 100)]
+          (.debug logger message))))
     (fn [] (reset! running? false))))
