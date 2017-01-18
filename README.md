@@ -1,5 +1,7 @@
 # com.stuartsierra / log.dev
 
+> I read the Logback manual so you don't have to.
+
 Quick-start logging setup for Java or Clojure development using
 [SLF4J] and [Logback].
 
